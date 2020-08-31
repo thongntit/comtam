@@ -4,13 +4,19 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { mainDish } from "constants/menu";
-
+import SumMenu from "./SumMenu";
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-16 lg:py-20`;
 
 const Columns = tw.div`flex`;
-const MainColumn = tw.div`lg:block w-6/12 p-6 shadow-2xl border-solid border-r-2 border-b-2 border-gray-300 rounded-lg`;
-const SideColumn = tw.div`lg:block w-3/12`;
+const MainColumn = tw.div`lg:block w-6/12 p-6`;
+const SideColumn = styled.div`
+  ${tw`lg:block w-4/12 p-6`}
+  border: 1px solid #e8e9eb;
+  box-shadow: 0 0 1px 1px rgba(20, 23, 28, 0.1),
+    0 3px 1px 0 rgba(20, 23, 28, 0.1);
+`;
+const Hack = tw.div`lg:block w-1/12`;
 
 const Heading = tw(SectionHeading)`lg:text-left`;
 
@@ -47,7 +53,7 @@ export default ({ heading = "Menu", menu = null }) => {
     <Container>
       <Content>
         <Columns>
-          <SideColumn></SideColumn>
+          <Hack></Hack>
           <MainColumn>
             <Heading>
               <HighlightedText>{heading}</HighlightedText> hôm nay
@@ -72,7 +78,10 @@ export default ({ heading = "Menu", menu = null }) => {
               ))}
             </Menu>
           </MainColumn>
-          <SideColumn></SideColumn>
+          <Hack></Hack>
+          <SideColumn>
+            <SumMenu />
+          </SideColumn>
         </Columns>
       </Content>
     </Container>
