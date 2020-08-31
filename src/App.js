@@ -18,9 +18,8 @@ import { css } from "styled-components/macro"; //eslint-disable-line
 /* Use AnimationRevealPage as a wrapper component for your pages if you are custom building it */
 // import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 
-import RestaurantLandingPage from "demos/RestaurantLandingPage.js";
-// import ServiceLandingPage from "demos/ServiceLandingPage.js";
-// import HostingCloudLandingPage from "demos/HostingCloudLandingPage.js";
+import RestaurantLandingPage from "containers/RestaurantLandingPage.js";
+import OrderPage from "containers/Order.js";
 
 /* Inner Pages */
 // import LoginPage from "pages/Login.js";
@@ -39,8 +38,11 @@ export default function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/">
+        <Route path="/" exact>
           <RestaurantLandingPage />
+        </Route>
+        <Route path="/order" exact>
+          <OrderPage />
         </Route>
       </Switch>
     </Router>
