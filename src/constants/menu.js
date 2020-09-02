@@ -3,7 +3,7 @@ export const mainDish = [
     imageSrc:
       "https://beptruong.edu.vn/wp-content/uploads/2018/04/ke-hoach-kinh-doanh-com-tam.jpg",
     title: "Sườn bì chả",
-    content: "Cơm tấm sườn bì chả",
+    content: "Cơm tấm sườn, bì, chả, dưa leo, đồ chua",
     price: "38000",
     rating: "5.0",
     reviews: "87",
@@ -15,7 +15,7 @@ export const mainDish = [
     imageSrc:
       "https://beptruong.edu.vn/wp-content/uploads/2018/06/cach-uop-thit-nuong-com-tam.jpg",
     title: "Sườn",
-    content: "Cơm tấm sườn",
+    content: "Cơm tấm sườn, dưa leo, đồ chua",
     price: "30000",
     rating: "5.0",
     reviews: "87",
@@ -27,7 +27,7 @@ export const mainDish = [
     imageSrc:
       "https://f.imgs.vietnamnet.vn/2017/12/12/15/khoi-mat-cong-ra-quan-vi-cong-thuc-com-tam-chuan-vi-nhat-ngay-day.jpg",
     title: "Sườn trứng",
-    content: "Cơm tấm sườn trứng",
+    content: "Cơm tấm sườn, trứng, dưa leo, đồ chua",
     price: "30000",
     rating: "5.0",
     reviews: "87",
