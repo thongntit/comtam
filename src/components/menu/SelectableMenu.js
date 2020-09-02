@@ -1,5 +1,5 @@
 import { SectionHeading } from "components/misc/Headings.js";
-import { mainDish } from "constants/menu";
+import { mainDish, additionalDish } from "constants/menu";
 import { actions, useCartDispatchState } from "contexts";
 import { ReactComponent as PlusIcon } from "feather-icons/dist/icons/plus.svg";
 import React from "react";
@@ -37,7 +37,7 @@ const MenuToggleIcon = styled.span`
 const HighlightedText = tw.span`bg-primary-500 text-gray-100 px-4 transform -skew-x-12 inline-block`;
 
 export default ({ heading = "Menu", menu = null }) => {
-  if (!menu || menu.length === 0) menu = mainDish;
+  if (!menu || menu.length === 0) menu = [...mainDish, ...additionalDish];
   const cartDispatch = useCartDispatchState();
   return (
     <Container>
