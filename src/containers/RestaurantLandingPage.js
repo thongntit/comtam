@@ -28,6 +28,7 @@ export default () => {
         imageDecoratorBlob={true}
         primaryButtonText="Đặt hàng ngay"
         watchVideoButtonText="Tìm hiểu thêm"
+        primaryButtonUrl="/order"
       />
       {/* TabGrid Component also accepts a tabs prop to customize the tabs and its content directly. Please open the TabGrid component file to see the structure of the tabs props.*/}
       <TabGrid
