@@ -3,12 +3,15 @@ import Menu from "components/menu/SelectableMenu";
 import Steps from "components/steps/Steps";
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 import React from "react";
+import { useStepsState } from "contexts/steps";
+import OrderCompleted from "components/orderComplete";
 export default () => {
+  const { currentStep } = useStepsState();
   return (
-    <AnimationRevealPage visible={true} >
+    <AnimationRevealPage visible={true}>
       <Header />
       <Steps />
-      <Menu />
+      {currentStep === 2 ? <OrderCompleted /> : <Menu />}
     </AnimationRevealPage>
   );
 };
