@@ -7,6 +7,8 @@ import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import SumMenu from "./SumMenu";
+import { useStepsState } from "contexts/steps";
+
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-4`;
 
@@ -32,17 +34,22 @@ const MenuToggleIcon = styled.span`
 `;
 const HighlightedText = tw.span`bg-primary-500 text-gray-100 px-4 transform -skew-x-12 inline-block`;
 const Divider = tw.span`divide-y divide-gray-400`;
-const CardImageContainer = styled.img`${tw`w-auto h-auto`} max-width: 60px; max-height: 60px;`;
+const CardImageContainer = styled.img`
+  ${tw`w-auto h-auto`} max-width: 60px;
+  max-height: 60px;
+`;
 const DishNameContainer = tw.div`ml-2 flex flex-col text-left`;
 export default ({ heading = "Menu", menu = null }) => {
   if (!menu || menu.length === 0) menu = [...mainDish, ...additionalDish];
   const cartDispatch = useCartDispatchState();
+  const steps = useStepsState();
+
   return (
     <Container>
       <Content>
         <Columns>
           <Hack></Hack>
-          <MainColumn>
+          {steps.currentStep === 0 ? <MainColumn>
             <Heading>
               <HighlightedText>{heading}</HighlightedText> hôm nay
             </Heading>
@@ -78,7 +85,9 @@ export default ({ heading = "Menu", menu = null }) => {
                 ))}
               </Divider>
             </Menu>
-          </MainColumn>
+          </MainColumn>: 
+          <MainColumn>abcd</MainColumn>
+          }
           <Hack></Hack>
           <SideColumn>
             <SumMenu />
