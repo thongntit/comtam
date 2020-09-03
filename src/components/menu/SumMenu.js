@@ -1,5 +1,10 @@
 import { SectionSubHeading } from "components/misc/Headings.js";
-import { actions, useCartDispatchState, useCartState } from "contexts/cart";
+import {
+  actions as cartAction,
+  useCartDispatchState,
+  useCartState,
+} from "contexts/cart";
+import { actions as stepsAction, useStepsDispatchState } from "contexts/steps";
 import { ReactComponent as SubtractIcon } from "feather-icons/dist/icons/minus.svg";
 import { ReactComponent as PlusIcon } from "feather-icons/dist/icons/plus.svg";
 import numeral from "numeral";
@@ -41,6 +46,7 @@ const SideColumn = styled.div`
 export default () => {
   const cart = useCartState();
   const dispatch = useCartDispatchState();
+  const stepsDispatch = useStepsDispatchState();
   const totalAmount = cart.items.reduce((acc, item) => {
     return (acc += item.quatity * item.price);
   }, 0);
@@ -58,7 +64,7 @@ export default () => {
                       <AddIcon
                         onClick={() =>
                           dispatch({
-                            type: actions.addItem,
+                            type: cartAction.addItem,
                             dish,
                           })
                         }
@@ -69,7 +75,7 @@ export default () => {
                       <MinusIcon
                         onClick={() =>
                           dispatch({
-                            type: actions.removeItem,
+                            type: cartAction.removeItem,
                             dish,
                           })
                         }
@@ -100,7 +106,9 @@ export default () => {
               {numeral(totalAmount).format("0,0") + " VNĐ"}
             </HighlightedText>
           </FlexContainer>
-          <Button>Đặt trước</Button>
+          <Button onClick={() => stepsDispatch({ type: stepsAction.nextStep })}>
+            Đặt trước
+          </Button>
         </Divider>
       </Menu>
     </SideColumn>

@@ -3,6 +3,7 @@ import tw, { styled } from "twin.macro";
 import { ReactComponent as ClipboardIcon } from "feather-icons/dist/icons/clipboard.svg";
 import { ReactComponent as CheckIcon } from "feather-icons/dist/icons/check.svg";
 import { ReactComponent as TruckIcon } from "feather-icons/dist/icons/truck.svg";
+import { useStepsState, useStepsDispatchState, actions } from "contexts/steps";
 const Container = styled.div`
   display: flex;
   justify-content: space-evenly;
@@ -16,7 +17,7 @@ const StepImageContainer = styled.div`
   }) => (!completed ? tw`bg-white border-2 border-gray-200` : null)}
 `;
 const StepImage = styled.span`
-  ${tw`text-center w-full`} ${({ completed }) =>
+  ${tw`text-center w-full cursor-pointer`} ${({ completed }) =>
     completed ? tw`text-white` : tw`text-gray-600`}
 `;
 const StepSvg = styled.svg`
@@ -34,55 +35,45 @@ const Line = styled.div`
   ${({ completed }) => (completed ? tw`bg-primary-300` : tw`bg-gray-300`)}
 `;
 
-const Steps = () => {
+const Steps = ({
+  stepsData = [
+    { id: 0, text: "Chọn món", icon: <ClipboardIcon /> },
+    { id: 1, text: "Giao hàng", icon: <TruckIcon /> },
+    { id: 2, text: "Hoàn tất", icon: <CheckIcon /> },
+  ],
+}) => {
+  const steps = useStepsState();
+  const dispatch = useStepsDispatchState();
   return (
     <Container>
       <FlexContainer>
-        <Step>
-          <StepContainer>
-            <StepImageContainer completed>
-              <StepImage completed>
-                <StepSvg viewBox="0 0 24 24" width="24" height="24">
-                  <ClipboardIcon />
-                </StepSvg>
-              </StepImage>
-            </StepImageContainer>
-          </StepContainer>
-          <StepText>Chọn món</StepText>
-        </Step>
-
-        <Step>
-          <StepContainer>
-            <LineContainer>
-              <Line completed />
-            </LineContainer>
-            <StepImageContainer completed>
-              <StepImage completed>
-                <StepSvg viewBox="0 0 24 24" width="24" height="24">
-                  <TruckIcon />
-                </StepSvg>
-              </StepImage>
-            </StepImageContainer>
-          </StepContainer>
-          <StepText>Giao hàng</StepText>
-        </Step>
-
-        <Step>
-          <StepContainer>
-            <LineContainer>
-              <Line />
-            </LineContainer>
-            <StepImageContainer>
-              <StepImage>
-                <StepSvg viewBox="0 0 24 24" width="24" height="24">
-                  <CheckIcon />
-                </StepSvg>
-              </StepImage>
-            </StepImageContainer>
-          </StepContainer>
-
-          <StepText>Hoàn tất</StepText>
-        </Step>
+        {stepsData.map((step, index) => (
+          <Step>
+            <StepContainer>
+              {index === 0 ? null : (
+                <LineContainer>
+                  <Line completed={steps.currentStep >= step.id} />
+                </LineContainer>
+              )}
+              <StepImageContainer completed={steps.currentStep >= step.id}>
+                <StepImage
+                  completed={steps.currentStep >= step.id}
+                  onClick={() =>
+                    dispatch({
+                      type: actions.gotoStep,
+                      value: index,
+                    })
+                  }
+                >
+                  <StepSvg viewBox="0 0 24 24" width="24" height="24">
+                    {step.icon}
+                  </StepSvg>
+                </StepImage>
+              </StepImageContainer>
+            </StepContainer>
+            <StepText>{step.text}</StepText>
+          </Step>
+        ))}
       </FlexContainer>
     </Container>
   );
