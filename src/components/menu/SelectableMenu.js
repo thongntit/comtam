@@ -8,7 +8,7 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import SumMenu from "./SumMenu";
 const Container = tw.div`relative`;
-const Content = tw.div`max-w-screen-xl mx-auto py-16 lg:py-20`;
+const Content = tw.div`max-w-screen-xl mx-auto py-4`;
 
 const Columns = tw.div`flex`;
 const MainColumn = tw.div`lg:block w-6/12 p-6`;
@@ -18,14 +18,14 @@ const SideColumn = tw.div`lg:block w-4/12`;
 const Heading = tw(SectionHeading)`lg:text-left`;
 
 const Menu = tw.dl`mt-12`;
-const Dishes = tw.div`cursor-pointer select-none py-4 rounded-none text-center`;
+const Dishes = tw.div`select-none py-4 rounded-none text-center`;
 const MenuContainer = tw.dt`flex justify-between items-center`;
 const ActionLayout = tw.dt`flex justify-between items-center`;
 const DishName = tw.span`text-lg lg:text-xl font-semibold`;
 const DishDetail = tw.span`text-base`;
 const DishPrice = tw.span`text-lg lg:text-xl font-semibold`;
 const MenuToggleIcon = styled.span`
-  ${tw`ml-2 bg-primary-500 text-gray-100 p-1 rounded-full group-hover:bg-primary-700 group-hover:text-gray-200 transition duration-300`}
+  ${tw`cursor-pointer ml-2 bg-primary-500 text-gray-100 p-1 rounded-full hover:bg-primary-700 hover:text-gray-200 transition duration-300`}
   svg {
     ${tw`w-auto h-auto`}
   }

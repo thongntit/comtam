@@ -1,16 +1,14 @@
-// import Features from "components/features/ThreeColWithSideImage.js";
-import Menu from "components/menu/SelectableMenu";
-import Footer from "components/footers/FiveColumnWithInputForm.js";
 import Header from "components/headers/light.js";
+import Menu from "components/menu/SelectableMenu";
+import Steps from "components/steps/Steps";
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 import React from "react";
-
 export default () => {
   return (
-    <AnimationRevealPage>
+    <AnimationRevealPage visible={true} >
       <Header />
+      <Steps />
       <Menu />
-      <Footer />
     </AnimationRevealPage>
   );
 };
