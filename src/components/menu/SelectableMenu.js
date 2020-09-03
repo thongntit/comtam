@@ -8,7 +8,7 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import SumMenu from "./SumMenu";
 import { useStepsState } from "contexts/steps";
-
+import ShippingInfo from "components/shippingInfo/form";
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-4`;
 
@@ -49,45 +49,49 @@ export default ({ heading = "Menu", menu = null }) => {
       <Content>
         <Columns>
           <Hack></Hack>
-          {steps.currentStep === 0 ? <MainColumn>
-            <Heading>
-              <HighlightedText>{heading}</HighlightedText> hôm nay
-            </Heading>
-            <Menu>
-              <Divider>
-                {menu.map((dish, index) => (
-                  <Dishes key={index} className="group">
-                    <MenuContainer>
+          {steps.currentStep === 0 ? (
+            <MainColumn>
+              <Heading>
+                <HighlightedText>{heading}</HighlightedText> hôm nay
+              </Heading>
+              <Menu>
+                <Divider>
+                  {menu.map((dish, index) => (
+                    <Dishes key={index} className="group">
                       <MenuContainer>
-                        <CardImageContainer src={dish.imageSrc} />
-                        <DishNameContainer>
-                          <DishName>{dish.title}</DishName>
-                          <DishDetail>{dish.content}</DishDetail>
-                        </DishNameContainer>
+                        <MenuContainer>
+                          <CardImageContainer src={dish.imageSrc} />
+                          <DishNameContainer>
+                            <DishName>{dish.title}</DishName>
+                            <DishDetail>{dish.content}</DishDetail>
+                          </DishNameContainer>
+                        </MenuContainer>
+                        <ActionLayout>
+                          <DishPrice>
+                            {numeral(dish.price).format("0,0") + " VNĐ"}
+                          </DishPrice>
+                          <MenuToggleIcon
+                            onClick={() => {
+                              cartDispatch({
+                                type: actions.addItem,
+                                dish,
+                              });
+                            }}
+                          >
+                            <PlusIcon />
+                          </MenuToggleIcon>
+                        </ActionLayout>
                       </MenuContainer>
-                      <ActionLayout>
-                        <DishPrice>
-                          {numeral(dish.price).format("0,0") + " VNĐ"}
-                        </DishPrice>
-                        <MenuToggleIcon
-                          onClick={() => {
-                            cartDispatch({
-                              type: actions.addItem,
-                              dish,
-                            });
-                          }}
-                        >
-                          <PlusIcon />
-                        </MenuToggleIcon>
-                      </ActionLayout>
-                    </MenuContainer>
-                  </Dishes>
-                ))}
-              </Divider>
-            </Menu>
-          </MainColumn>: 
-          <MainColumn>abcd</MainColumn>
-          }
+                    </Dishes>
+                  ))}
+                </Divider>
+              </Menu>
+            </MainColumn>
+          ) : (
+            <MainColumn>
+              <ShippingInfo />
+            </MainColumn>
+          )}
           <Hack></Hack>
           <SideColumn>
             <SumMenu />

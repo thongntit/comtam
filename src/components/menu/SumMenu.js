@@ -4,7 +4,11 @@ import {
   useCartDispatchState,
   useCartState,
 } from "contexts/cart";
-import { actions as stepsAction, useStepsDispatchState } from "contexts/steps";
+import {
+  actions as stepsAction,
+  useStepsDispatchState,
+  useStepsState,
+} from "contexts/steps";
 import { ReactComponent as SubtractIcon } from "feather-icons/dist/icons/minus.svg";
 import { ReactComponent as PlusIcon } from "feather-icons/dist/icons/plus.svg";
 import numeral from "numeral";
@@ -32,7 +36,6 @@ const MinusIcon = styled.span`
     ${tw`w-2 h-2`}
   }
 `;
-const Divider = tw.span`divide-y divide-gray-400`;
 const TotalText = tw.div`py-2 text-primary-500`;
 const Items = tw.div`py-2`;
 const Button = tw.button`bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded w-full`;
@@ -43,9 +46,15 @@ const SideColumn = styled.div`
   box-shadow: 0 0 1px 1px rgba(20, 23, 28, 0.1),
     0 3px 1px 0 rgba(20, 23, 28, 0.1);
 `;
+const Divider = styled.hr`
+  border-top: 3px dashed #bbb;
+`;
+const ShippingFee = tw.div`pt-2 line-through`
+const ShippingFeeText = tw.div`pb-2`
 export default () => {
   const cart = useCartState();
   const dispatch = useCartDispatchState();
+  const steps = useStepsState();
   const stepsDispatch = useStepsDispatchState();
   const totalAmount = cart.items.reduce((acc, item) => {
     return (acc += item.quatity * item.price);
@@ -54,62 +63,67 @@ export default () => {
     <SideColumn>
       <Menu>
         <Heading>Tóm tắt</Heading>
-        <Divider>
-          <Items>
-            {cart.items.map((dish, index) => (
-              <>
-                <Dishes key={index} className="group">
+        <Items>
+          {cart.items.map((dish, index) => (
+            <>
+              <Dishes key={index} className="group">
+                <FlexContainer>
                   <FlexContainer>
-                    <FlexContainer>
-                      <AddIcon
-                        onClick={() =>
-                          dispatch({
-                            type: cartAction.addItem,
-                            dish,
-                          })
-                        }
-                      >
-                        <PlusIcon />
-                      </AddIcon>
-                      <Count>{dish.quatity}</Count>
-                      <MinusIcon
-                        onClick={() =>
-                          dispatch({
-                            type: cartAction.removeItem,
-                            dish,
-                          })
-                        }
-                      >
-                        <SubtractIcon />
-                      </MinusIcon>
-                      <DishName>{dish.title}</DishName>
-                    </FlexContainer>
-                    <DishPrice>
-                      {numeral(dish.price).format("0,0") + "đ"}
-                    </DishPrice>
+                    <AddIcon
+                      onClick={() =>
+                        dispatch({
+                          type: cartAction.addItem,
+                          dish,
+                        })
+                      }
+                    >
+                      <PlusIcon />
+                    </AddIcon>
+                    <Count>{dish.quatity}</Count>
+                    <MinusIcon
+                      onClick={() =>
+                        dispatch({
+                          type: cartAction.removeItem,
+                          dish,
+                        })
+                      }
+                    >
+                      <SubtractIcon />
+                    </MinusIcon>
+                    <DishName>{dish.title}</DishName>
                   </FlexContainer>
-                  <FlexContainer>
-                    <span>Cộng</span>
-                    <span>
-                      {numeral(parseInt(dish.price) * dish.quatity).format(
-                        "0,0"
-                      ) + " VNĐ"}
-                    </span>
-                  </FlexContainer>
-                </Dishes>
-              </>
-            ))}
-          </Items>
-          <FlexContainer>
-            <TotalText>Tổng cộng</TotalText>
-            <HighlightedText>
-              {numeral(totalAmount).format("0,0") + " VNĐ"}
-            </HighlightedText>
-          </FlexContainer>
-          <Button onClick={() => stepsDispatch({ type: stepsAction.nextStep })}>
-            Đặt trước
-          </Button>
-        </Divider>
+                  <DishPrice>
+                    {numeral(dish.price).format("0,0") + "đ"}
+                  </DishPrice>
+                </FlexContainer>
+                <FlexContainer>
+                  <span>Cộng</span>
+                  <span>
+                    {numeral(parseInt(dish.price) * dish.quatity).format(
+                      "0,0"
+                    ) + " VNĐ"}
+                  </span>
+                </FlexContainer>
+              </Dishes>
+            </>
+          ))}
+        </Items>
+        <Divider />
+        <FlexContainer>
+          <ShippingFeeText>Phí giao hàng</ShippingFeeText>
+          <ShippingFee>
+            {numeral(15000).format("0,0") + " VNĐ"}
+          </ShippingFee>
+        </FlexContainer>
+        <FlexContainer>
+          <TotalText>Tổng cộng</TotalText>
+          <HighlightedText>
+            {numeral(totalAmount).format("0,0") + " VNĐ"}
+          </HighlightedText>
+        </FlexContainer>
+        <Button onClick={() => stepsDispatch({ type: stepsAction.nextStep })}>
+          {steps.currentStep === 1 ? "Hoàn tất" : "Đặt ngay!"}
+        </Button>
       </Menu>
     </SideColumn>
   ) : null;
