@@ -21,7 +21,7 @@ const Heading = tw(SectionSubHeading)`lg:text-left text-primary-500`;
 const Menu = tw.dl`mt-2`;
 const Count = tw.span`font-semibold`;
 const Dishes = tw.div`mt-2 select-none border lg:border-0 px-8 py-2 lg:p-0 rounded-lg lg:rounded-none`;
-const FlexContainer = tw.dt`flex justify-between items-center`;
+const FlexContainer = tw.div`flex justify-between items-center`;
 const DishName = tw.span`text-sm font-semibold`;
 const DishPrice = tw.span`text-sm font-semibold`;
 const AddIcon = styled.span`
@@ -49,24 +49,33 @@ const SideColumn = styled.div`
 const Divider = styled.hr`
   border-top: 3px dashed #bbb;
 `;
-const ShippingFee = tw.div`pt-2 line-through`
-const ShippingFeeText = tw.div`pb-2`
+const ShippingFee = tw.div`pt-2 line-through`;
+const ShippingFeeText = tw.div`pb-2`;
 export default () => {
   const cart = useCartState();
   const dispatch = useCartDispatchState();
-  const steps = useStepsState();
+  const { currentStep } = useStepsState();
   const stepsDispatch = useStepsDispatchState();
   const totalAmount = cart.items.reduce((acc, item) => {
     return (acc += item.quatity * item.price);
   }, 0);
+
+  const onClickNextStep = () => {
+    if (currentStep === 0) {
+      stepsDispatch({ type: stepsAction.nextStep });
+    } else if (currentStep === 1) {
+      const submitBtn = document.getElementById("shipping-submit-btn");
+      if (submitBtn) submitBtn.click();
+    }
+  };
   return cart.items.length > 0 ? (
     <SideColumn>
       <Menu>
         <Heading>Tóm tắt</Heading>
         <Items>
           {cart.items.map((dish, index) => (
-            <>
-              <Dishes key={index} className="group">
+            <React.Fragment key={index}>
+              <Dishes className="group">
                 <FlexContainer>
                   <FlexContainer>
                     <AddIcon
@@ -105,15 +114,13 @@ export default () => {
                   </span>
                 </FlexContainer>
               </Dishes>
-            </>
+            </React.Fragment>
           ))}
         </Items>
         <Divider />
         <FlexContainer>
           <ShippingFeeText>Phí giao hàng</ShippingFeeText>
-          <ShippingFee>
-            {numeral(15000).format("0,0") + " VNĐ"}
-          </ShippingFee>
+          <ShippingFee>{numeral(15000).format("0,0") + " VNĐ"}</ShippingFee>
         </FlexContainer>
         <FlexContainer>
           <TotalText>Tổng cộng</TotalText>
@@ -121,8 +128,8 @@ export default () => {
             {numeral(totalAmount).format("0,0") + " VNĐ"}
           </HighlightedText>
         </FlexContainer>
-        <Button onClick={() => stepsDispatch({ type: stepsAction.nextStep })}>
-          {steps.currentStep === 1 ? "Hoàn tất" : "Đặt ngay!"}
+        <Button onClick={onClickNextStep}>
+          {currentStep === 1 ? "Hoàn tất" : "Đặt ngay!"}
         </Button>
       </Menu>
     </SideColumn>

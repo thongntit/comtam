@@ -11,7 +11,13 @@ export default () => {
     <AnimationRevealPage visible={true}>
       <Header />
       <Steps />
-      {currentStep === 2 ? <OrderCompleted /> : <Menu />}
+      {currentStep === 2 ? (
+        <AnimationRevealPage>
+          <OrderCompleted />
+        </AnimationRevealPage>
+      ) : (
+        <Menu />
+      )}
     </AnimationRevealPage>
   );
 };

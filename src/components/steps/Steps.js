@@ -48,7 +48,7 @@ const Steps = ({
     <Container>
       <FlexContainer>
         {stepsData.map((step, index) => (
-          <Step>
+          <Step key={step.id}>
             <StepContainer>
               {index === 0 ? null : (
                 <LineContainer>
